@@ -108,15 +108,18 @@ export default class Layout {
     }
 
     static addCartFunctionality() {
+        // TODO: chevrons now delete the cart (WTF)
+        // TODO: cart adds too many divs
         const cartContent = document.querySelector('.cart-content');
-        const items = Cart.getCart();
         const cart = new Cart();
+        const items = Cart.getCart();
         cartContent.addEventListener('click', event => {
             if (event.target.classList.contains('remove-item')) {
                 let removeItem = event.target;
                 let id = removeItem.dataset.id;
                 cartContent.removeChild(removeItem.parentElement.parentElement);
-                cart.removeItem(id);
+                cart.removeItem(id)
+                return;
             } else if (event.target.classList.contains('fa-chevron-up')) {
                 let addAmount = event.target;
                 let id = addAmount.dataset.id;
