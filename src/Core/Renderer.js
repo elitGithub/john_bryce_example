@@ -23,7 +23,7 @@ export default class Renderer {
             Router.rerender('/shop');
         });
         banner.appendChild(shopNowBtn);
-        Renderer.setCartValues(new Cart().items);
+        Renderer.setCartValues(Cart.getCart());
         return heroHeader;
     }
 
@@ -130,6 +130,7 @@ export default class Renderer {
 
     static rerenderProductButtons() {
         Renderer.getButtons().forEach(button => {
+            console.log('button ids', button.dataset.id);
             let id = button.dataset.id;
             let inCart = Cart.getCart().find(item => item.id === id);
             if (inCart) {
@@ -137,10 +138,34 @@ export default class Renderer {
                 button.innerText = "In Cart";
                 button.disabled = true;
                 return;
+            } else {
+                button.disabled = false;
+                button.innerHTML = `<i class="fas fa-shopping-cart"></i>add to cart`;
+                button.addEventListener('click', (event) => {
+                    let id = event.target.dataset.id;
+                    event.target.innerText = "In Cart";
+                    event.target.disabled = true;
+                    const items = Cart.getCart();
+                    // get product from products
+                    console.log('i got here', id);
+                    if (items.find(item => item.id === id)) {
+                        new Cart().increaseByOne(id);
+                        return;
+                    } else {
+                        let cartItem = Database.getProduct(id);
+                        cartItem.amount = 1;
+                        // add item product to the cart
+                        items.push(cartItem);
+                        // save cart in local storage
+                        Cart.saveCart(items);
+                    }
+
+                    // set cart values
+                    Renderer.setCartValues(Cart.getCart());
+                    //show the cart
+                    Cart.showCart();
+                });
             }
-            button.addEventListener('click', (event) => {
-                Event.cartButtonsLogic(event, id);
-            });
         });
     }
 }

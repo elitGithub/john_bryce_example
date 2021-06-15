@@ -108,44 +108,20 @@ export default class Layout {
     }
 
     static addCartFunctionality() {
-        // TODO: chevrons now delete the cart (WTF)
-        // TODO: cart adds too many divs
+        // TODO: some of the items are added more than once, looks like I missed a call to save cart or I loop over something too many times.
         const cartContent = document.querySelector('.cart-content');
         const cart = new Cart();
-        const items = Cart.getCart();
         cartContent.addEventListener('click', event => {
             if (event.target.classList.contains('remove-item')) {
-                let removeItem = event.target;
-                let id = removeItem.dataset.id;
-                cartContent.removeChild(removeItem.parentElement.parentElement);
-                cart.removeItem(id)
+                cart.removeItem(event.target.dataset.id);
                 return;
             } else if (event.target.classList.contains('fa-chevron-up')) {
-                let addAmount = event.target;
-                let id = addAmount.dataset.id;
-
-                items.forEach(item => {
-                    if (item.id === id) {
-                        item.amount++;
-                    }
-                });
-
-                Cart.saveCart(items);
-                Renderer.setCartValues(items);
+                cart.increaseByOne(event.target.dataset.id);
+                Renderer.setCartValues(Cart.getCart());
                 return;
             } else if (event.target.classList.contains('fa-chevron-down')) {
-                let lowerAmount = event.target;
-                let id = lowerAmount.dataset.id;
-                items.forEach(item => {
-                    if (item.id === id) {
-                        item.amount--;
-                        if (item.amount < 1) {
-                            cart.removeItem(id);
-                        }
-                    }
-                });
-                Cart.saveCart(items);
-                Renderer.setCartValues(items);
+                cart.decreaseByOne(event.target.dataset.id);
+                Renderer.setCartValues(Cart.getCart());
                 return;
             }
         });
