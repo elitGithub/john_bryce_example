@@ -104,6 +104,7 @@ dist
 .tern-port
 
 ./idea/
+./idea/*
 .idea/vcs.xml
 dist/
 package-lock.json

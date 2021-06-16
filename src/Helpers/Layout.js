@@ -108,7 +108,6 @@ export default class Layout {
     }
 
     static addCartFunctionality() {
-        // TODO: some of the items are added more than once, looks like I missed a call to save cart or I loop over something too many times.
         const cartContent = document.querySelector('.cart-content');
         const cart = new Cart();
         cartContent.addEventListener('click', event => {
