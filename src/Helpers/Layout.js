@@ -114,15 +114,12 @@ export default class Layout {
         cartContent.addEventListener('click', event => {
             if (event.target.classList.contains('remove-item')) {
                 cart.removeItem(event.target.dataset.id);
-                return;
             } else if (event.target.classList.contains('fa-chevron-up')) {
                 cart.increaseByOne(event.target.dataset.id);
                 Renderer.setCartValues(Cart.getCart());
-                return;
             } else if (event.target.classList.contains('fa-chevron-down')) {
                 cart.decreaseByOne(event.target.dataset.id);
                 Renderer.setCartValues(Cart.getCart());
-                return;
             }
         });
     }
