@@ -130,7 +130,6 @@ export default class Renderer {
 
     static rerenderProductButtons() {
         Renderer.getButtons().forEach(button => {
-            console.log('button ids', button.dataset.id);
             let id = button.dataset.id;
             let inCart = Cart.getCart().find(item => item.id === id);
             if (inCart) {
