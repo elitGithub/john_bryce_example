@@ -8,7 +8,7 @@ export default class Router {
     }
 
     getPathName() {
-        return this.url.pathname;
+        return this.url;
     }
 
     static rerender(pathname) {
@@ -17,6 +17,7 @@ export default class Router {
 
     resolve(pathname) {
         // Routes.
+        console.log(pathname);
         switch (pathname) {
             case '/':
             case 'index.html':
@@ -36,8 +37,12 @@ export default class Router {
     }
 
     getRequestedPath(url) {
-        const splitPath  = url.split('/');
+        if (typeof url === 'string' || url instanceof String) {
+            const splitPath = url.split('/');
 
-        return splitPath[splitPath.length - 1];
+            return splitPath[splitPath.length - 1];
+        }
+
+        return '/';
     }
 }
